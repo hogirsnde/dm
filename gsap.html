@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Slider</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 35vh; /* Adjust height as needed */
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .slider::after {
+            position: absolute;
+            content: "";
+            left: 0;
+            top: -100px;
+            width: 100%;
+            height: 150%;
+            background: linear-gradient(
+                rgba(255, 255, 255, 0.7),
+                rgba(255, 255, 255, 0.8),
+                rgba(255, 255, 255, 1)
+            );
+            z-index: 1;
+        }
+
+        .slide-track {
+            display: flex;
+            animation: scroll 20s linear infinite;
+        }
+
+        .slide {
+            margin: 5px;
+            min-width: 20%;
+            overflow: hidden;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+                rgba(255, 255, 255, 0.8) 0px 0px 1px 0px;
+            box-sizing: border-box;
+            border-radius: 7px;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 7px;
+        }
+
+        .translatey_slider {
+            transform: translateY(-30%);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slider">
+        <div class="slide-track">
+            <div class="slide translatey_slider">
+                <img src="./third_slider.jpeg" alt="Image 1">
+            </div>
+            <div class="slide">
+                <img src="./fourth_slider.jpeg" alt="Image 2">
+            </div>
+            <div class="slide translatey_slider">
+                <img src="./first-slider.jpeg" alt="Image 3">
+            </div>
+            <div class="slide">
+                <img src="./second_slider.jpeg" alt="Image 4">
+            </div>
+            <div class="slide translatey_slider">
+                <img src="./third_slider.jpeg" alt="Image 5">
+            </div>
+            <!-- Repeat images to create an infinite effect -->
+            <div class="slide">
+                <img src="./fourth_slider.jpeg" alt="Image 6">
+            </div>
+            <div class="slide translatey_slider">
+                <img src="./first-slider.jpeg" alt="Image 7">
+            </div>
+            <div class="slide">
+                <img src="./second_slider.jpeg" alt="Image 8">
+            </div>
+            <div class="slide translatey_slider">
+                <img src="./third_slider.jpeg" alt="Image 9">
+            </div>
+            <div class="slide">
+                <img src="./fourth_slider.jpeg" alt="Image 10">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const numberOfRows = 3;
+            const slider = document.querySelector('.slider');
+            const slideTrack = document.querySelector('.slide-track');
+            const slides = document.querySelectorAll('.slide');
+            const slideWidth = slides[0].offsetWidth;
+            const trackWidth = slideWidth * slides.length;
+
+            // Create clones for infinite scrolling
+            for (let i = 1; i < numberOfRows; i++) {
+                const cloneTrack = slideTrack.cloneNode(true);
+                slider.appendChild(cloneTrack);
+                cloneTrack.style.transform = `translateX(-${trackWidth}px)`;
+                cloneTrack.style.top = `${i * 10}%`;
+            }
+
+            // Adjust animation for each row
+            const animationDuration = 20; // Animation duration in seconds
+            const translateDistance = trackWidth; // Distance to translate
+
+            document.querySelectorAll('.slide-track').forEach((track, index) => {
+                const delay = (index * translateDistance) / numberOfRows / slideWidth;
+                track.style.animation = `scroll ${animationDuration}s linear infinite`;
+            });
+        });
+    </script>
+</body>
+</html>
